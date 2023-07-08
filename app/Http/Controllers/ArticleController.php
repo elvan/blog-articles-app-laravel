@@ -7,17 +7,9 @@ use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ArticleController extends Controller
 {
-    use AuthorizesRequests;
-
-    public function __construct()
-    {
-        $this->authorizeResource(Article::class, 'articles');
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -49,9 +41,9 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Article $article)
+    public function show(Article $article): View
     {
-        //
+        return view('articles.show', compact('article'));
     }
 
     /**
