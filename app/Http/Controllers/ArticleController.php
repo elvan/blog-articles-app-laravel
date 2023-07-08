@@ -68,18 +68,25 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Article $article)
+    public function edit(Article $article): View
     {
-        //
+        return view('articles.edit', array_merge(compact('article'), $this->getFormData()));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArticleRequest $request, Article $article)
+    public function update(UpdateArticleRequest $request, Article $article): RedirectResponse
     {
-        //
+        $article->update($request->validated() + [
+            'slug' => Str::slug($request->title)
+        ]);
+
+        $article->tags()->sync($request->tags);
+
+        return redirect(route('dashboard'))->with('message', 'Article has successfully been updated');
     }
+
 
     /**
      * Remove the specified resource from storage.
