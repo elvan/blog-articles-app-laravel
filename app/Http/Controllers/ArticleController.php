@@ -87,13 +87,14 @@ class ArticleController extends Controller
         return redirect(route('dashboard'))->with('message', 'Article has successfully been updated');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article): RedirectResponse
     {
-        //
+        $article->delete();
+
+        return redirect(route('dashboard'))->with('message', 'Article has successfully been deleted.');
     }
 
     private function getFormData(): array
